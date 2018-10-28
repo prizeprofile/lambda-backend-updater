@@ -15,7 +15,7 @@ module.exports = class TwitterUpdater extends Updater {
   /**
    * @inheritdoc
    */
-  static get source_id () {
+  get source_id () {
     return 0
   }
 
@@ -25,8 +25,6 @@ module.exports = class TwitterUpdater extends Updater {
   async collect () {
     const tweets = await this.fetch()
 
-    console.log('tweets', tweets)
-
     return tweets.map((tweet) => {
       // Finds competition.
       const competition = this.competitions.find(c => c.resource_id === tweet.id_str)
@@ -35,7 +33,7 @@ module.exports = class TwitterUpdater extends Updater {
       const entrants = this.entrants(tweet, competition.entry_methods)
 
       // If # of entrants is the same, skips.
-      if (entrants === competition.entrants) {
+      if (entrants === null || entrants === competition.entrants) {
         return null
       }
 
@@ -54,14 +52,14 @@ module.exports = class TwitterUpdater extends Updater {
    * @return {Number}
    */
   entrants (tweet, methods) {
-    let entrants = 0
+    let entrants = null
 
     if (methods.includes('retweet')) {
-      entrants = Math.min(entrants, tweet.retweet_count)
+      entrants = entrants === null ? tweet.retweet_count : Math.min(entrants, tweet.retweet_count)
     }
 
     if (methods.includes('like')) {
-      entrants = Math.min(entrants, tweet.favorite_count)
+      entrants = entrants === null ? tweet.favorite_count : Math.min(entrants, tweet.favorite_count)
     }
 
     return entrants
@@ -75,6 +73,6 @@ module.exports = class TwitterUpdater extends Updater {
   async fetch () {
     const ids = this.competitions.map(({ resource_id }) => resource_id)
 
-    return client.get(`statuses/lookup.json?id=${ids.join(',')}`)
+    return client.get(`statuses/lookup.json?id=${ids.join(',')}`, {})
   }
 }

@@ -6,7 +6,7 @@ module.exports = /*abstract*/ class Updater {
   /**
    * @var {Number}
    */
-  static get source_id () {
+  get source_id () {
     return null
   }
 
@@ -18,6 +18,10 @@ module.exports = /*abstract*/ class Updater {
   constructor (competitions) {
     this.competitions = competitions
       .filter(({ source_id }) => source_id === this.source_id)
+
+    if (!this.competitions.length) {
+      throw new Error(`No competitions for source ${this.source_id}.`)
+    }
   }
 
   /**

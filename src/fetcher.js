@@ -3,7 +3,7 @@ const axios = require('axios')
 module.exports = async () => {
   const page = new Date().getHours()
 
-  const url = `${process.env.COMPETITIONS_URL}?page=${page}`
+  const url = `${process.env.COMPETITIONS_URL}?page=${0}`
 
   const { data } = await axios.get(url)
 
