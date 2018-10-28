@@ -1,17 +1,6 @@
-# AWS Lambda: Twitter Scraper
+# AWS Lambda: Twitter Entrants Scraper
 
-Fetches tweets, parses them and pushes them to an SQS.
-
-The event object has to be of following structure:
-
-```
-event.Records[0].Sns.message = {
-    ...
-    "region_id": Integer,
-    "since_id": String,
-    "params": Object
-}
-```
+Scrapes competitions entrants from Twitter.
 
 ## Deployment
 Deploy with `npm run deploy:{env}`.
