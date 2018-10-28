@@ -1,0 +1,33 @@
+{
+  "name": "lambda-backend-updater",
+  "version": "1.0.0",
+  "description": "Scrapes competitions entrants from Twitter.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prizeprofile/lambda-backend-updater.git"
+  },
+  "author": "Michael Bausano",
+  "license": "ISC",
+  "homepage": "https://github.com/prizeprofile/lambda-backend-updater#readme",
+  "scripts": {
+    "create:stage": "claudia create --name stage-backend-updater --region eu-west-1 --handler index.handler --role arn:aws:iam::365488455739:role/scraper_lambda --config claudia-stage.json",
+    "create:prod": "claudia create --name prod-backend-updater --region eu-west-1 --handler index.handler --role arn:aws:iam::365488455739:role/scraper_lambda --config claudia-prod.json",
+    "deploy:stage": "claudia update --config claudia-stage.json",
+    "deploy:prod": "claudia update --config claudia-prod.json"
+  },
+  "directories": {
+    "src": "src",
+    "test": "test"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.250.1",
+    "axios": "^0.18.0",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "claudia": "^5.1.1",
+    "mocha": "^5.1.0"
+  }
+}
