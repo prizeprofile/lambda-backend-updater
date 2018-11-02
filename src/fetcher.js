@@ -1,9 +1,10 @@
 const axios = require('axios')
 
 module.exports = async () => {
-  const page = new Date().getHours()
+  const h = new Date().getHours()
+  const page = Math.abs(h - (12 * (h >= 12)))
 
-  const url = `${process.env.COMPETITIONS_URL}?page=${page}`
+  const url = `${process.env.COMPETITIONS_URL}?page=${page}&size=100`
 
   const { data } = await axios.get(url)
 
